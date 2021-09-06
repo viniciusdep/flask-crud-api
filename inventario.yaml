@@ -1,0 +1,35 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-inventario
+  labels:
+    app: api-inventario
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-inventario
+  template:
+    metadata:
+      labels:
+        app: api-inventario
+    spec:
+      containers:
+        - name: api-inventario-container
+          image: viniciusdep/api-inventario-prom
+          ports:
+            - containerPort: 5300
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-api-inventario
+spec:
+  selector:
+    app: api-inventario
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 5300
+

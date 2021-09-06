@@ -1,0 +1,36 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-enderecos
+  labels:
+    app: api-enderecos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-enderecos
+  template:
+    metadata:
+      labels:
+        app: api-enderecos
+    spec:
+      containers:
+        - name: api-enderecos-container
+          image: viniciusdep/api-enderecos-prom
+          ports:
+            - containerPort: 5100
+---
+#Cluster IP enderecos
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-api-enderecos
+spec:
+  selector:
+    app: api-enderecos
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 5100
+
