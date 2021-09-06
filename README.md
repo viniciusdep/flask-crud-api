@@ -12,4 +12,6 @@ Cada arquivo contém:
 - Dockerfile - Imagem personalizada da API 
 - requirements.txt - Todas as dependências da API
 
-Além disso cada API conta com um arquivo .yaml onde é criado um deployment e um service para conteinerização caso necessário. 
+Além disso cada API conta com um arquivo .yaml onde é criado um deployment e um service para conteinerização caso necessário.
+
+Obs.: A API está instrumentada para enviar métricas ao prometheus.
