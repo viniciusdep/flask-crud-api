@@ -24,8 +24,8 @@ def adiciona_venda():
             sqlQuery = "INSERT INTO vendas.inventario_produtos (data_venda, id_cliente, id_produto) VALUES (%s,%s,%s)"
             bindData = (_data_venda, _id_cliente, _id_produto)
             try:
-                cliente = requests.get(f'lhttp://127.0.0.1:5000/api/clientes/{_id_cliente}', headers = {"Authorization":key})
-                produto = requests.get(f'http://localhost:5200/api/produtos/{_id_produto}', headers = {"Authorization":key})
+                cliente = requests.get(f'http://127.0.0.1:5000/api/clientes/{_id_cliente}', headers = {"Authorization":key})
+                produto = requests.get(f'http://127.0.0.1:5200/api/produtos/{_id_produto}', headers = {"Authorization":key})
             except Exception as e:
                 return jsonify({"error":'Comunicação falhou...'}), 500
             if cliente.status_code == 404:
