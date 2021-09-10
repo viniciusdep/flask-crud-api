@@ -1,23 +1,16 @@
 import pymysql
-from app import app, metrics
+from app import app
 from config import mysql
 from flask import jsonify
 from flask import flash, request,Response
 from auth import BasicAuth
 from flask import Flask, render_template, json, request,redirect,session
 from flaskext.mysql import MySQL
-from prometheus_flask_exporter import PrometheusMetrics
-from prometheus_client import start_http_server, Summary
-from werkzeug.middleware.dispatcher import DispatcherMiddleware
-from prometheus_client import make_wsgi_app
 import requests
 
-#static info as metric
-metrics.info("app_info", "Metricas API Inventario", version="1.0.0")
+#key = "Basic YWRtaW46MTIzNA=="
 
-key = "Basic YWRtaW46MTIzNA=="
-
-#Adiciona uma venda --- OK
+#Adiciona uma venda
 @app.route('/api/vendas', methods=['POST'])
 def adiciona_venda():
     try:
@@ -56,7 +49,7 @@ def adiciona_venda():
         cursor.close()
         conn.close()           
 
-#Altera informações de uma vendas específica --- OK
+#Altera informações de uma vendas específica
 @app.route('/api/vendas/<int:id_venda>', methods=['PUT']) 
 def atualiza_venda(id_venda):
     try:
@@ -99,7 +92,7 @@ def atualiza_venda(id_venda):
         cursor.close()
         conn.close()
 
-#Deleta uma venda específica --- OK
+#Deleta uma venda específica
 @app.route('/api/vendas/<int:id_venda>', methods=['DELETE'])
 def deleta_venda(id_venda):
     try:
@@ -121,7 +114,7 @@ def deleta_venda(id_venda):
         cursor.close()
         conn.close()
         
-#Retorna informações de todas as vendas --- OK
+#Retorna informações de todas as vendas
 @app.route('/api/vendas', methods = ['GET'])
 def retorna_venda():
     try:
@@ -138,7 +131,7 @@ def retorna_venda():
         cursor.close()
         conn.close()
 
-#Retorna as vendas realizadas para um determinado clientes --- OK
+#Retorna as vendas realizadas para um determinado clientes
 @app.route('/api/vendas/clientes/<int:id_cliente>', methods = ['GET'])
 def retorna_venda_cliente_id(id_cliente):
     try:
@@ -163,7 +156,7 @@ def retorna_venda_cliente_id(id_cliente):
         cursor.close() 
         conn.close()
 
-#Retorna uma venda específica --- OK
+#Retorna uma venda específica
 @app.route('/api/vendas/<int:id_venda>', methods = ['GET'])
 def retorna_venda_id (id_venda):
     try:
@@ -188,13 +181,9 @@ def retorna_venda_id (id_venda):
         cursor.close() 
         conn.close()
 
-@app.route("/healthcheck/vendas")
+@app.route("/api/vendas/healthcheck")
 def hello():
     return "Ok."
-
-# Add prometheus wsgi middleware to route /metrics requests
-app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
-    '/metrics/vendas': make_wsgi_app()})
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5300)

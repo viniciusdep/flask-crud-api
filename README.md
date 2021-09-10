@@ -8,10 +8,5 @@ Cada arquivo contém:
 - app.py - Arquivo padrão do flask para iniciar a API
 - auth.py - Configurações de basic authentication
 - nomedaapi.py - Instrumentação completa da API com metodos CRUD e conexão com o MySQL
-- config.py - Configurações do MySQL 
-- Dockerfile - Imagem personalizada da API 
+- config.py - Configurações do MySQL
 - requirements.txt - Todas as dependências da API
-
-Além disso cada API conta com um arquivo .yaml onde é criado um deployment e um service para conteinerização caso necessário.
-
-Obs.: A API está instrumentada para enviar métricas ao prometheus.

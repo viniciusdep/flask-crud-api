@@ -1,21 +1,14 @@
 import pymysql
-from app import app, metrics
+from app import app
 from config import mysql
 from flask import jsonify
 from flask import flash, request,Response
 from auth import BasicAuth
-from flask import Flask, render_template, json, request,redirect,session
+from flask import Flask, json, request, session
 from flaskext.mysql import MySQL
-from prometheus_flask_exporter import PrometheusMetrics
-from prometheus_client import start_http_server, Summary
-from werkzeug.middleware.dispatcher import DispatcherMiddleware
-from prometheus_client import make_wsgi_app
 
 
-#static info as metric
-metrics.info("app_info", "Metricas API Clientes", version="1.0.0")
-
-#Adiciona um cliente  --- OK
+#Adiciona um cliente
 @app.route("/api/clientes", methods=["POST"])
 def adiciona_cliente():
 	try:
@@ -42,7 +35,7 @@ def adiciona_cliente():
 		cursor.close()
 		conn.close()
 
-#Altera informações no cadastro de um cliente específico --- OK
+#Altera informações no cadastro de um cliente específico
 @app.route('/api/clientes/<int:id_cliente>', methods=['PUT'])
 def atualiza_cliente(id_cliente):
 	try:
@@ -69,8 +62,8 @@ def atualiza_cliente(id_cliente):
 	finally:
 		cursor.close() 
 		conn.close()
-   
-#Deleta informações de um clientes específico --- OK
+
+#Deleta informações de um clientes específico
 @app.route('/api/clientes/<int:id_cliente>', methods=['DELETE'])
 def deleta_cliente(id_cliente):
 	try:
@@ -87,7 +80,7 @@ def deleta_cliente(id_cliente):
 		cursor.close() 
 		conn.close()
 
-#Retorna todas as informações de todos os clientes --- OK
+#Retorna todas as informações de todos os clientes
 @app.route('/api/clientes', methods=["GET"])
 def retorna_cliente():
 	try:
@@ -104,7 +97,7 @@ def retorna_cliente():
 		cursor.close() 
 		conn.close()
 
-#Retorna informações de um clientes específico --- OK
+#Retorna informações de um clientes específico
 @app.route('/api/clientes/<int:id_cliente>', methods=["GET"])
 def retorna_cliente_id(id_cliente):
 
@@ -124,13 +117,10 @@ def retorna_cliente_id(id_cliente):
 		cursor.close() 
 		conn.close()
   
-@app.route("/healthcheck/clientes")
+@app.route("/api/clientes/healthcheck")
 def hello():
     return "Ok."
 
-# Add prometheus wsgi middleware to route /metrics requests
-app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
-    '/metrics': make_wsgi_app()})
 
 if __name__ == "__main__":
    app.run(debug=True, host='0.0.0.0', port=5000)
