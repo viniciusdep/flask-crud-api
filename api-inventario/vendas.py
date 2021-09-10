@@ -8,7 +8,7 @@ from flask import Flask, render_template, json, request,redirect,session
 from flaskext.mysql import MySQL
 import requests
 
-#key = "Basic YWRtaW46MTIzNA=="
+key = "Basic YWRtaW46MTIzNA=="
 
 #Adiciona uma venda
 @app.route('/api/vendas', methods=['POST'])
@@ -24,8 +24,8 @@ def adiciona_venda():
             sqlQuery = "INSERT INTO vendas.inventario_produtos (data_venda, id_cliente, id_produto) VALUES (%s,%s,%s)"
             bindData = (_data_venda, _id_cliente, _id_produto)
             try:
-                cliente = requests.get(f'http://vika.tech-talent.cf/api/clientes/{_id_cliente}', headers = {"Authorization":key})
-                produto = requests.get(f'http://vika.tech-talent.cf/api/produtos/{_id_produto}', headers = {"Authorization":key})
+                cliente = requests.get(f'lhttp://127.0.0.1:5000/api/clientes/{_id_cliente}', headers = {"Authorization":key})
+                produto = requests.get(f'http://localhost:5200/api/produtos/{_id_produto}', headers = {"Authorization":key})
             except Exception as e:
                 return jsonify({"error":'Comunicação falhou...'}), 500
             if cliente.status_code == 404:
@@ -69,8 +69,8 @@ def atualiza_venda(id_venda):
             sqlQuery = "UPDATE inventario_produtos SET data_venda=%s, id_produto=%s, id_cliente=%s  WHERE id_venda=%s"
             bindData = (_data_venda,_id_produto,_id_cliente,_id_venda)
             try:
-                cliente = requests.get(f'http://vika.tech-talent.cf/api/clientes/{_id_cliente}', headers = {"Authorization":key})
-                produto = requests.get(f'http://vika.tech-talent.cf/api/produtos/{_id_produto}', headers = {"Authorization":key})
+                cliente = requests.get(f'http://127.0.0.1:5000/api/clientes/{_id_cliente}', headers = {"Authorization":key})
+                produto = requests.get(f'http://127.0.0.1:5200/api/produtos/{_id_produto}', headers = {"Authorization":key})
             except Exception as e:
                 return jsonify({"error":'Comunicação falhou...'}), 500 
             if cliente.status_code == 404:
@@ -142,9 +142,9 @@ def retorna_venda_cliente_id(id_cliente):
         if not prodRow:
             return Response('Venda não cadastrada.'),404
         venda = [] #Cria um array vazio para adicionar produtos contratados por um determinado cliente
-        cliente = requests.get(f'http://vika.tech-talent.cf/api/clientes/{id_cliente}', headers = {"Authorization":key})
+        cliente = requests.get(f'http://127.0.0.1:5000/api/clientes/{id_cliente}', headers = {"Authorization":key})
         for i in (prodRow):
-            produto = requests.get(f'http://vika.tech-talent.cf/api/produtos/{i["id_produto"]}', headers = {"Authorization":key})
+            produto = requests.get(f'http://127.0.0.1:5200/api/produtos/{i["id_produto"]}', headers = {"Authorization":key})
             venda.append(produto.json())
             i["data_venda"] = f"{i['data_venda']}"
         response = jsonify(cliente.json(), venda, prodRow)        
@@ -168,8 +168,8 @@ def retorna_venda_id (id_venda):
             return Response('Venda não cadastrada.'), 404
         venda = [] #Cria um array vazio para adcionar produtos contratados por um determinado cliente
         for i in (prodRow):
-            cliente = requests.get(f'http://vika.tech-talent.cf/api/clientes/{i["id_cliente"]}', headers = {"Authorization":key})
-            produto = requests.get(f'http://vika.tech-talent.cf/api/produtos/{i["id_produto"]}', headers = {"Authorization":key})
+            cliente = requests.get(f'http://127.0.0.1:5000/api/clientes/{i["id_cliente"]}', headers = {"Authorization":key})
+            produto = requests.get(f'http://127.0.0.1:5200/api/produtos/{i["id_produto"]}', headers = {"Authorization":key})
             i["data_venda"] = f"{i['data_venda']}"
             venda.append(produto.json())
         response = jsonify( prodRow,venda,cliente.json())        

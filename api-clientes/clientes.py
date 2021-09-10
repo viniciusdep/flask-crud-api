@@ -2,11 +2,8 @@ import pymysql
 from app import app
 from config import mysql
 from flask import jsonify
-from flask import flash, request,Response
+from flask import request, Response
 from auth import BasicAuth
-from flask import Flask, json, request, session
-from flaskext.mysql import MySQL
-
 
 #Adiciona um cliente
 @app.route("/api/clientes", methods=["POST"])
@@ -116,11 +113,11 @@ def retorna_cliente_id(id_cliente):
 	finally:
 		cursor.close() 
 		conn.close()
-  
+
 @app.route("/api/clientes/healthcheck")
 def hello():
     return "Ok."
 
 
 if __name__ == "__main__":
-   app.run(debug=True, host='0.0.0.0', port=5000)
+	app.run(debug=True, host='0.0.0.0', port=5000)
