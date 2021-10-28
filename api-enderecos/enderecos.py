@@ -2,14 +2,12 @@ import pymysql
 from app import app
 from config import mysql
 from flask import jsonify
-from flask import flash, request,Response
-from auth import BasicAuth
-from flask import Flask, json, request, session
-from flaskext.mysql import MySQL
+from flask import request,Response
+from flask import request, render_template
 
 
 #Adiciona um endereço para um cliente específico 
-@app.route("/api/enderecos", methods=["POST"])
+@app.route("/api/enderecos/add", methods=["POST"])
 def adiciona_endereco():
 	try:
 		_json=request.json
@@ -40,7 +38,7 @@ def adiciona_endereco():
 		conn.close()
 
 #Altera infromações de um endereço específico
-@app.route("/api/enderecos/<int:id_end>", methods=["PUT"])
+@app.route("/api/enderecos/change/<int:id_end>", methods=["PUT"])
 def atualiza_endereco(id_end):
 	try:
 		conn = mysql.connect()
@@ -72,7 +70,7 @@ def atualiza_endereco(id_end):
 		conn.close()            
 
 #Apaga um endereço específico
-@app.route('/api/enderecos/<int:id_end>', methods=['DELETE'])
+@app.route('/api/enderecos/del/<int:id_end>', methods=['DELETE'])
 def deleta_endereco(id_end):
 	try:
 		conn = mysql.connect()
@@ -146,6 +144,11 @@ def retorna_endereco_cliente(id_cliente):
 @app.route("/api/enderecos/healthcheck")
 def hello():
     return "Ok."
+
+@app.route('/api/enderecos/swagger')
+def get_docs():
+    print('Preparando Swagger ...')
+    return render_template('swaggerui.html')
 
 if __name__ == "__main__":
 	app.run(debug=True, host='0.0.0.0', port=5100)

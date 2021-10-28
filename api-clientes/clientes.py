@@ -1,12 +1,11 @@
 import pymysql
 from app import app
 from config import mysql
-from flask import jsonify
+from flask import jsonify, render_template
 from flask import request, Response
-from auth import BasicAuth
 
 #Adiciona um cliente
-@app.route("/api/clientes", methods=["POST"])
+@app.route("/api/clientes/add", methods=["POST"])
 def adiciona_cliente():
 	try:
 		_json=request.json
@@ -33,7 +32,7 @@ def adiciona_cliente():
 		conn.close()
 
 #Altera informações no cadastro de um cliente específico
-@app.route('/api/clientes/<int:id_cliente>', methods=['PUT'])
+@app.route('/api/clientes/change/<int:id_cliente>', methods=['PUT'])
 def atualiza_cliente(id_cliente):
 	try:
 		conn = mysql.connect()
@@ -61,7 +60,7 @@ def atualiza_cliente(id_cliente):
 		conn.close()
 
 #Deleta informações de um clientes específico
-@app.route('/api/clientes/<int:id_cliente>', methods=['DELETE'])
+@app.route('/api/clientes/del/<int:id_cliente>', methods=['DELETE'])
 def deleta_cliente(id_cliente):
 	try:
 		conn = mysql.connect()
@@ -118,6 +117,11 @@ def retorna_cliente_id(id_cliente):
 def hello():
     return "Ok."
 
+@app.route('/api/clientes/swagger')
+def get_docs():
+    print('Preparando Swagger ...')
+    return render_template('swaggerui.html')
+    
 
 if __name__ == "__main__":
 	app.run(debug=True, host='0.0.0.0', port=5000)
