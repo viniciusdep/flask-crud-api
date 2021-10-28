@@ -2,16 +2,14 @@ import pymysql
 from app import app
 from config import mysql
 from flask import jsonify
-from flask import flash, request,Response
-from auth import BasicAuth
-from flask import Flask, render_template, json, request,redirect,session
-from flaskext.mysql import MySQL
+from flask import request,Response
+from flask import render_template, request
 import requests
 
 key = "Basic YWRtaW46MTIzNA=="
 
 #Adiciona uma venda
-@app.route('/api/vendas', methods=['POST'])
+@app.route('/api/vendas/add', methods=['POST'])
 def adiciona_venda():
     try:
         conn = mysql.connect()
@@ -50,7 +48,7 @@ def adiciona_venda():
         conn.close()           
 
 #Altera informações de uma vendas específica
-@app.route('/api/vendas/<int:id_venda>', methods=['PUT']) 
+@app.route('/api/vendas/change/<int:id_venda>', methods=['PUT']) 
 def atualiza_venda(id_venda):
     try:
         conn = mysql.connect()
@@ -184,6 +182,11 @@ def retorna_venda_id (id_venda):
 @app.route("/api/vendas/healthcheck")
 def hello():
     return "Ok."
+
+@app.route('/api/vendas/swagger')
+def get_docs():
+    print('Preparando Swagger ...')
+    return render_template('swaggerui.html')
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5300)

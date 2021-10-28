@@ -2,14 +2,13 @@ import pymysql
 from app import app
 from config import mysql
 from flask import jsonify
-from flask import flash, request,Response
-from auth import BasicAuth
-from flask import Flask, render_template, json, request,redirect,session
+from flask import request,Response
+from flask import render_template, request
 from flaskext.mysql import MySQL
 
 
 #adiciona um produto
-@app.route("/api/produtos", methods=["POST"])
+@app.route("/api/produtos/add", methods=["POST"])
 def adiciona_produto():
     try:
         _json = request.get_json(force = True)
@@ -38,7 +37,7 @@ def adiciona_produto():
         conn.close()
 
 #Altera informações de um produto específico
-@app.route('/api/produtos', methods=['PUT'])
+@app.route('/api/produtos/change', methods=['PUT'])
 def atualiza_produto():
     try:
         _json = request.get_json(force = True)
@@ -106,6 +105,11 @@ def retorna_produto_id(id_produto):
 @app.route("/api/produtos/healthcheck")
 def hello():
     return "Ok."
+
+@app.route('/api/produtos/swagger')
+def get_docs():
+    print('Preparando Swagger ...')
+    return render_template('swaggerui.html')
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5200)

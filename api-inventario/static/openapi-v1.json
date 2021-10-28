@@ -1,0 +1,274 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Inventario API",
+    "description": "A API relaciona vendas."
+  },
+  "paths": {
+    "/api/vendas/healthcheck": {
+      "get": {
+        "tags": [
+          "Healthcheck"
+        ],
+        "description": "Verifica saúde da aplicação.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "required": true,
+            "description": "language",
+            "schema": {
+              "type": "string",
+              "example": "pt-BR"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Healthcheck.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Healthcheck (200='ok')."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/vendas/<swagger>": {
+      "get": {
+        "tags": [
+          "Swagger"
+        ],
+        "description": "Swagger.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "required": true,
+            "description": "language",
+            "schema": {
+              "type": "string",
+              "example": "pt-BR"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Swagger.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Você está aqui!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/vendas": {
+      "get": {
+        "tags": [
+          "Todos as vendas"
+        ],
+        "description": "Retorna informações de todas as vendas.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "required": true,
+            "description": "language",
+            "schema": {
+              "type": "string",
+              "example": "pt-BR"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorno completo.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Retorno completo."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/vendas/clientes/<id_cliente>": {
+      "get": {
+        "tags": [
+          "Vendas específicas"
+        ],
+        "description": "Retorna as vendas realizadas para um determinado clientes.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "required": true,
+            "description": "language",
+            "schema": {
+              "type": "string",
+              "example": "pt-BR"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorno específico.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Retorno específico."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/vendas/<id_vendas>": {
+      "get": {
+        "tags": [
+          "Vendas específicas"
+        ],
+        "description": "Retorna informações sobre uma venda específica.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "required": true,
+            "description": "language",
+            "schema": {
+              "type": "string",
+              "example": "pt-BR"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorno específico.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Retorno específico."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/vendas/add": {
+      "post": {
+        "tags": [
+          "Adiciona uma venda"
+        ],
+        "description": "Adiciona uma venda.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "required": true,
+            "description": "language",
+            "schema": {
+              "type": "string",
+              "example": "pt-BR"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Adiciona uma venda.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Adiciona uma venda."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/vendas/change/<int:id_venda>": {
+      "put": {
+        "tags": [
+          "Altera informações de uma venda"
+        ],
+        "description": "Altera informações de uma venda.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "required": true,
+            "description": "language",
+            "schema": {
+              "type": "string",
+              "example": "pt-BR"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Altera informações de uma venda.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Altera informações de uma venda."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/vendas/<int:id_venda>": {
+      "delete": {
+        "tags": [
+          "Deleta uma venda específica"
+        ],
+        "description": "Deleta informações de uma venda.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "required": true,
+            "description": "language",
+            "schema": {
+              "type": "string",
+              "example": "pt-BR"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleta informações de uma venda.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Deleta informações de uma venda."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
