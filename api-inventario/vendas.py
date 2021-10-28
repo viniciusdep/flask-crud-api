@@ -1,23 +1,16 @@
 import pymysql
-from app import app, metrics
+from app import app
 from config import mysql
 from flask import jsonify
 from flask import flash, request,Response
 from auth import BasicAuth
 from flask import Flask, render_template, json, request,redirect,session
 from flaskext.mysql import MySQL
-from prometheus_flask_exporter import PrometheusMetrics
-from prometheus_client import start_http_server, Summary
-from werkzeug.middleware.dispatcher import DispatcherMiddleware
-from prometheus_client import make_wsgi_app
 import requests
-
-#static info as metric
-metrics.info("app_info", "Metricas API Inventario", version="1.0.0")
 
 key = "Basic YWRtaW46MTIzNA=="
 
-#Adiciona uma venda --- OK
+#Adiciona uma venda
 @app.route('/api/vendas', methods=['POST'])
 def adiciona_venda():
     try:
@@ -31,8 +24,8 @@ def adiciona_venda():
             sqlQuery = "INSERT INTO vendas.inventario_produtos (data_venda, id_cliente, id_produto) VALUES (%s,%s,%s)"
             bindData = (_data_venda, _id_cliente, _id_produto)
             try:
-                cliente = requests.get(f'http://vika.tech-talent.cf/api/clientes/{_id_cliente}', headers = {"Authorization":key})
-                produto = requests.get(f'http://vika.tech-talent.cf/api/produtos/{_id_produto}', headers = {"Authorization":key})
+                cliente = requests.get(f'http://127.0.0.1:5000/api/clientes/{_id_cliente}', headers = {"Authorization":key})
+                produto = requests.get(f'http://127.0.0.1:5200/api/produtos/{_id_produto}', headers = {"Authorization":key})
             except Exception as e:
                 return jsonify({"error":'Comunicação falhou...'}), 500
             if cliente.status_code == 404:
@@ -56,7 +49,7 @@ def adiciona_venda():
         cursor.close()
         conn.close()           
 
-#Altera informações de uma vendas específica --- OK
+#Altera informações de uma vendas específica
 @app.route('/api/vendas/<int:id_venda>', methods=['PUT']) 
 def atualiza_venda(id_venda):
     try:
@@ -76,8 +69,8 @@ def atualiza_venda(id_venda):
             sqlQuery = "UPDATE inventario_produtos SET data_venda=%s, id_produto=%s, id_cliente=%s  WHERE id_venda=%s"
             bindData = (_data_venda,_id_produto,_id_cliente,_id_venda)
             try:
-                cliente = requests.get(f'http://vika.tech-talent.cf/api/clientes/{_id_cliente}', headers = {"Authorization":key})
-                produto = requests.get(f'http://vika.tech-talent.cf/api/produtos/{_id_produto}', headers = {"Authorization":key})
+                cliente = requests.get(f'http://127.0.0.1:5000/api/clientes/{_id_cliente}', headers = {"Authorization":key})
+                produto = requests.get(f'http://127.0.0.1:5200/api/produtos/{_id_produto}', headers = {"Authorization":key})
             except Exception as e:
                 return jsonify({"error":'Comunicação falhou...'}), 500 
             if cliente.status_code == 404:
@@ -99,7 +92,7 @@ def atualiza_venda(id_venda):
         cursor.close()
         conn.close()
 
-#Deleta uma venda específica --- OK
+#Deleta uma venda específica
 @app.route('/api/vendas/<int:id_venda>', methods=['DELETE'])
 def deleta_venda(id_venda):
     try:
@@ -121,7 +114,7 @@ def deleta_venda(id_venda):
         cursor.close()
         conn.close()
         
-#Retorna informações de todas as vendas --- OK
+#Retorna informações de todas as vendas
 @app.route('/api/vendas', methods = ['GET'])
 def retorna_venda():
     try:
@@ -138,7 +131,7 @@ def retorna_venda():
         cursor.close()
         conn.close()
 
-#Retorna as vendas realizadas para um determinado clientes --- OK
+#Retorna as vendas realizadas para um determinado clientes
 @app.route('/api/vendas/clientes/<int:id_cliente>', methods = ['GET'])
 def retorna_venda_cliente_id(id_cliente):
     try:
@@ -149,9 +142,9 @@ def retorna_venda_cliente_id(id_cliente):
         if not prodRow:
             return Response('Venda não cadastrada.'),404
         venda = [] #Cria um array vazio para adicionar produtos contratados por um determinado cliente
-        cliente = requests.get(f'http://vika.tech-talent.cf/api/clientes/{id_cliente}', headers = {"Authorization":key})
+        cliente = requests.get(f'http://127.0.0.1:5000/api/clientes/{id_cliente}', headers = {"Authorization":key})
         for i in (prodRow):
-            produto = requests.get(f'http://vika.tech-talent.cf/api/produtos/{i["id_produto"]}', headers = {"Authorization":key})
+            produto = requests.get(f'http://127.0.0.1:5200/api/produtos/{i["id_produto"]}', headers = {"Authorization":key})
             venda.append(produto.json())
             i["data_venda"] = f"{i['data_venda']}"
         response = jsonify(cliente.json(), venda, prodRow)        
@@ -163,7 +156,7 @@ def retorna_venda_cliente_id(id_cliente):
         cursor.close() 
         conn.close()
 
-#Retorna uma venda específica --- OK
+#Retorna uma venda específica
 @app.route('/api/vendas/<int:id_venda>', methods = ['GET'])
 def retorna_venda_id (id_venda):
     try:
@@ -175,8 +168,8 @@ def retorna_venda_id (id_venda):
             return Response('Venda não cadastrada.'), 404
         venda = [] #Cria um array vazio para adcionar produtos contratados por um determinado cliente
         for i in (prodRow):
-            cliente = requests.get(f'http://vika.tech-talent.cf/api/clientes/{i["id_cliente"]}', headers = {"Authorization":key})
-            produto = requests.get(f'http://vika.tech-talent.cf/api/produtos/{i["id_produto"]}', headers = {"Authorization":key})
+            cliente = requests.get(f'http://127.0.0.1:5000/api/clientes/{i["id_cliente"]}', headers = {"Authorization":key})
+            produto = requests.get(f'http://127.0.0.1:5200/api/produtos/{i["id_produto"]}', headers = {"Authorization":key})
             i["data_venda"] = f"{i['data_venda']}"
             venda.append(produto.json())
         response = jsonify( prodRow,venda,cliente.json())        
@@ -188,13 +181,9 @@ def retorna_venda_id (id_venda):
         cursor.close() 
         conn.close()
 
-@app.route("/healthcheck/vendas")
+@app.route("/api/vendas/healthcheck")
 def hello():
     return "Ok."
-
-# Add prometheus wsgi middleware to route /metrics requests
-app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
-    '/metrics/vendas': make_wsgi_app()})
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5300)

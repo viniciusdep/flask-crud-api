@@ -1,20 +1,14 @@
 import pymysql
-from app import app, metrics
+from app import app
 from config import mysql
 from flask import jsonify
 from flask import flash, request,Response
 from auth import BasicAuth
 from flask import Flask, render_template, json, request,redirect,session
 from flaskext.mysql import MySQL
-from prometheus_flask_exporter import PrometheusMetrics
-from prometheus_client import start_http_server, Summary
-from werkzeug.middleware.dispatcher import DispatcherMiddleware
-from prometheus_client import make_wsgi_app
 
-#static info as metric
-metrics.info("app_info", "Metricas API Produtos", version="1.0.0")
 
-#adiciona um produto --- OK
+#adiciona um produto
 @app.route("/api/produtos", methods=["POST"])
 def adiciona_produto():
     try:
@@ -43,7 +37,7 @@ def adiciona_produto():
         cursor.close()
         conn.close()
 
-#Altera informações de um produto específico --- OK
+#Altera informações de um produto específico
 @app.route('/api/produtos', methods=['PUT'])
 def atualiza_produto():
     try:
@@ -73,7 +67,7 @@ def atualiza_produto():
         cursor.close() 
         conn.close()
         
-#Retorna todos os produtos --- OK
+#Retorna todos os produtos
 @app.route('/api/produtos', methods = ['GET'])
 def retorna_produto():
     try:
@@ -90,7 +84,7 @@ def retorna_produto():
         cursor.close()
         conn.close()
 
-#Retorna um produto específico --- OK
+#Retorna um produto específico
 @app.route('/api/produtos/<int:id_produto>', methods=["GET"]) 
 def retorna_produto_id(id_produto): 
     try:
@@ -109,13 +103,9 @@ def retorna_produto_id(id_produto):
         cursor.close() 
         conn.close()
 
-@app.route("/healthcheck/produtos")
+@app.route("/api/produtos/healthcheck")
 def hello():
     return "Ok."
 
-# Add prometheus wsgi middleware to route /metrics requests
-app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
-    '/metrics/produtos': make_wsgi_app()})  
-        
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=5200)

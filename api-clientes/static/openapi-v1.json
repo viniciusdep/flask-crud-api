@@ -1,0 +1,241 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Clientes API",
+    "description": "A API retorna clientes e todas as informações de cadastro."
+  },
+  "paths": {
+    "/api/clientes/healthcheck": {
+      "get": {
+        "tags": [
+          "Healthcheck"
+        ],
+        "description": "Verifica saúde da aplicação.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "required": true,
+            "description": "language",
+            "schema": {
+              "type": "string",
+              "example": "pt-BR"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Healthcheck.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Healthcheck (200='ok')."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clientes/<swagger>": {
+      "get": {
+        "tags": [
+          "Swagger"
+        ],
+        "description": "Swagger.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "required": true,
+            "description": "language",
+            "schema": {
+              "type": "string",
+              "example": "pt-BR"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Swagger.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Você está aqui!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clientes": {
+      "get": {
+        "tags": [
+          "Todos os clientes"
+        ],
+        "description": "Informações de cadastro.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "required": true,
+            "description": "language",
+            "schema": {
+              "type": "string",
+              "example": "pt-BR"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorno completo.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Retorno completo."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clientes/<id_cliente>": {
+      "get": {
+        "tags": [
+          "Cliente específico"
+        ],
+        "description": "Retorna informações de um clientes específico.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "required": true,
+            "description": "language",
+            "schema": {
+              "type": "string",
+              "example": "pt-BR"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorno específico.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Retorno específico."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clientes/add": {
+      "post": {
+        "tags": [
+          "Adiciona um cliente"
+        ],
+        "description": "Adiciona um cliente.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "required": true,
+            "description": "language",
+            "schema": {
+              "type": "string",
+              "example": "pt-BR"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Adiciona um cliente.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Adiciona um cliente."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clientes/change/<id_cliente>": {
+      "put": {
+        "tags": [
+          "Altera informações do cliente"
+        ],
+        "description": "Altera informações de cadastro de um cliente específico.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "required": true,
+            "description": "language",
+            "schema": {
+              "type": "string",
+              "example": "pt-BR"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Altera informações de cadastro.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Altera informações de cadastro."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clientes/del/<id_cliente>": {
+      "delete": {
+        "tags": [
+          "Deleta informações do cliente"
+        ],
+        "description": "Deleta informações de um cliente específico.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "required": true,
+            "description": "language",
+            "schema": {
+              "type": "string",
+              "example": "pt-BR"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleta informações de um cliente.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Deleta informações de um cliente."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

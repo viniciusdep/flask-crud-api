@@ -1,21 +1,13 @@
 import pymysql
-from app import app, metrics
+from app import app
 from config import mysql
 from flask import jsonify
-from flask import flash, request,Response
-from auth import BasicAuth
-from flask import Flask, render_template, json, request,redirect,session
-from flaskext.mysql import MySQL
-from prometheus_flask_exporter import PrometheusMetrics
-from prometheus_client import start_http_server, Summary
-from werkzeug.middleware.dispatcher import DispatcherMiddleware
-from prometheus_client import make_wsgi_app
+from flask import request,Response
+from flask import request, render_template
 
-#static info as metric
-metrics.info("app_info", "Metricas API Enderecos", version="1.0.0")
 
-#Adiciona um endereço para um cliente específico --- OK
-@app.route("/api/enderecos", methods=["POST"])
+#Adiciona um endereço para um cliente específico 
+@app.route("/api/enderecos/add", methods=["POST"])
 def adiciona_endereco():
 	try:
 		_json=request.json
@@ -45,8 +37,8 @@ def adiciona_endereco():
 		cursor.close() 
 		conn.close()
 
-#Altera infromações de um endereço específico --- OK
-@app.route("/api/enderecos/<int:id_end>", methods=["PUT"])
+#Altera infromações de um endereço específico
+@app.route("/api/enderecos/change/<int:id_end>", methods=["PUT"])
 def atualiza_endereco(id_end):
 	try:
 		conn = mysql.connect()
@@ -77,8 +69,8 @@ def atualiza_endereco(id_end):
 		cursor.close() 
 		conn.close()            
 
-#Apaga um endereço específico --- OK
-@app.route('/api/enderecos/<int:id_end>', methods=['DELETE'])
+#Apaga um endereço específico
+@app.route('/api/enderecos/del/<int:id_end>', methods=['DELETE'])
 def deleta_endereco(id_end):
 	try:
 		conn = mysql.connect()
@@ -95,7 +87,7 @@ def deleta_endereco(id_end):
 		cursor.close() 
 		conn.close()
 
-#Retorna todos os endereços cadastrados --- OK
+#Retorna todos os endereços cadastrados
 @app.route('/api/enderecos')
 def retorna_endereco():
 	try:
@@ -112,7 +104,7 @@ def retorna_endereco():
 		cursor.close() 
 		conn.close()
 
-#Retorna um endereço específico --- OK
+#Retorna um endereço específico
 @app.route('/api/enderecos/<int:id_end>', methods=["GET"]) 
 def retorna_endereco_id(id_end):
 	try:
@@ -130,7 +122,7 @@ def retorna_endereco_id(id_end):
 		cursor.close() 
 		conn.close()
 
-#Retorna os endereços cadastrados para um cliente específico --- OK
+#Retorna os endereços cadastrados para um cliente específico
 @app.route('/api/enderecos/clientes/<int:id_cliente>', methods=["GET"])  
 def retorna_endereco_cliente(id_cliente):
 	try:
@@ -149,13 +141,14 @@ def retorna_endereco_cliente(id_cliente):
 		cursor.close() 
 		conn.close()
 
-@app.route("/healthcheck/enderecos")
+@app.route("/api/enderecos/healthcheck")
 def hello():
     return "Ok."
 
-# Add prometheus wsgi middleware to route /metrics requests
-app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
-    '/metrics': make_wsgi_app()})           
+@app.route('/api/enderecos/swagger')
+def get_docs():
+    print('Preparando Swagger ...')
+    return render_template('swaggerui.html')
 
 if __name__ == "__main__":
 	app.run(debug=True, host='0.0.0.0', port=5100)

@@ -1,0 +1,274 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Enderecos API",
+    "description": "A API retorna informações de endereço dos clientes cadastrados."
+  },
+  "paths": {
+    "/api/enderecos/healthcheck": {
+      "get": {
+        "tags": [
+          "Healthcheck"
+        ],
+        "description": "Verifica saúde da aplicação.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "required": true,
+            "description": "language",
+            "schema": {
+              "type": "string",
+              "example": "pt-BR"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Healthcheck.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Healthcheck (200='ok')."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/enderecos/<swagger>": {
+      "get": {
+        "tags": [
+          "Swagger"
+        ],
+        "description": "Swagger.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "required": true,
+            "description": "language",
+            "schema": {
+              "type": "string",
+              "example": "pt-BR"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Swagger.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Você está aqui!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/enderecos": {
+      "get": {
+        "tags": [
+          "Todas as informações de endereço"
+        ],
+        "description": "Informações completas de endereço.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "required": true,
+            "description": "language",
+            "schema": {
+              "type": "string",
+              "example": "pt-BR"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorno completo.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Retorno completo."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/enderecos/clientes/<int:id_cliente>": {
+      "get": {
+        "tags": [
+          "Retorna os endereços cadastrados para um cliente específico"
+        ],
+        "description": "Retorna os endereços cadastrados para um cliente específico.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "required": true,
+            "description": "language",
+            "schema": {
+              "type": "string",
+              "example": "pt-BR"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorno específico.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Retorno específico."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/endereco/<id_endereco>": {
+      "get": {
+        "tags": [
+          "Endereço específico"
+        ],
+        "description": "Retorna informações de um endereço específico.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "required": true,
+            "description": "language",
+            "schema": {
+              "type": "string",
+              "example": "pt-BR"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorno específico.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Retorno específico."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/endereco/add": {
+      "post": {
+        "tags": [
+          "Atribui um endereço a um cliente"
+        ],
+        "description": "Adiciona um endereço a um cliente.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "required": true,
+            "description": "language",
+            "schema": {
+              "type": "string",
+              "example": "pt-BR"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Adiciona um endereço.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Adiciona um endereço."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/clientes/change/change/<id_endereco>": {
+      "put": {
+        "tags": [
+          "Altera informações do endereço de um cliente específico"
+        ],
+        "description": "Altera informações de endereço de um cliente específico.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "required": true,
+            "description": "language",
+            "schema": {
+              "type": "string",
+              "example": "pt-BR"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Altera informações de endereço.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Altera informações de endereço."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/endereco/del/<id_endereco>": {
+      "delete": {
+        "tags": [
+          "Deleta informações de endereço do cliente"
+        ],
+        "description": "Deleta informações de endereço do cliente.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "required": true,
+            "description": "language",
+            "schema": {
+              "type": "string",
+              "example": "pt-BR"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleta informações de endereço do cliente.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Deleta informações de endereço do cliente."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
