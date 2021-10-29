@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_cors import CORS
-
+from opentelemetry.instrumentation.flask import FlaskInstrumentor
 
 
 
@@ -9,4 +9,5 @@ from flask_cors import CORS
 
 
 app = Flask(__name__)
+FlaskInstrumentor().instrument_app(app)
 CORS(app)
