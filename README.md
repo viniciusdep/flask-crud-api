@@ -10,3 +10,4 @@ Cada arquivo contém:
 - nomedaapi.py - Instrumentação completa da API com metodos CRUD e conexão com o MySQL
 - config.py - Configurações do MySQL
 - requirements.txt - Todas as dependências da API
+- SonarQube
